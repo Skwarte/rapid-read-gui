@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+using namespace std;
 namespace Ui {
 class MainWindow;
 }
@@ -13,6 +13,8 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    QString fileName;
+//    ifstream file;
     ~MainWindow();
 
 private slots:

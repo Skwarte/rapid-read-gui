@@ -4,6 +4,9 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QDebug>
+#include <QFile>
+#include <QMessageBox>
+
 //#include <QListWidget>
 //#include <QListWidgetItem>
 //#include "qlistwidget.h"
@@ -23,10 +26,24 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
   //  QString desk = (QString)QStandardPaths::DesktopLocation;
-    QString homeLocation = QStandardPaths::locate(QStandardPaths::DesktopLocation, QString(), QStandardPaths::LocateDirectory);
+    QString desktop = QStandardPaths::locate(QStandardPaths::DesktopLocation, QString(), QStandardPaths::LocateDirectory);
     //qDebug() << QStandardPaths::DesktopLocation;
-    QString filenames = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("txt files (*.txt)"));
-    qDebug() << filenames;
+    fileName = QFileDialog::getOpenFileName(this, tr("Open File"), desktop, tr("txt files (*.txt)"));
+    qDebug() << fileName;
     //ui->listWidget->addItems(filenames);
+
+
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream in(&file);
+    QString word = in.readAll();
+    QStringList fileWords = word.split(" ");
+
+    for(int i = 0; i < fileWords.length(); i++)
+    {
+        qDebug() << fileWords[i];
+    }
+    //file.open(fileName);
+
 }
 
