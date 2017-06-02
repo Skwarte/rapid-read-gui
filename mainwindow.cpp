@@ -19,6 +19,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QFont font = ui->currWord->font();
+    font.setPointSize(40);
+    ui->currWord->setFont(font);
 }
 
 MainWindow::~MainWindow()
@@ -28,40 +31,38 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    //  QString desk = (QString)QStandardPaths::DesktopLocation;
-    QString desktop = QStandardPaths::locate(QStandardPaths::DesktopLocation, QString(), QStandardPaths::LocateDirectory);
-    //qDebug() << QStandardPaths::DesktopLocation;
-    fileName = QFileDialog::getOpenFileName(this, tr("Open File"), desktop, tr("txt files (*.txt)"), 0, QFileDialog::DontUseNativeDialog);
-    qDebug() << fileName;
-    //ui->listWidget->addItems(filenames);
+    if(ui->pushButton->text() == "Select File" || ui->pushButton->text() == "Select Another File")
+    {
+        QString desktop = QStandardPaths::locate(QStandardPaths::DesktopLocation, QString(), QStandardPaths::LocateDirectory);
+        fileDir = QFileDialog::getOpenFileName(this, tr("Open File"), desktop, tr("txt files (*.txt)"), 0, QFileDialog::DontUseNativeDialog);
+        QStringList fileName = fileDir.split("/");
+        ui->currWord->setText("Selected File: " + fileName[fileName.length()-1]);
+        ui->pushButton->setText("Go!");
+    }
+    else
+    {
+            ui->pushButton->hide();
+            QFile file(fileDir);
+            file.open(QIODevice::ReadOnly | QIODevice::Text);
+            QTextStream in(&file);
+            QString word = in.readAll();
+            QStringList fileWords = word.split(" ");
 
+            for(int i = 0; i < fileWords.length(); i++)
+            {
+                qDebug() << fileWords[i];
+                ui->currWord->setText(fileWords[i]);
+                qApp->processEvents();
+                QThread::usleep(60000000/450); //second spent on each word
+            }
+            ui->pushButton->setText("Select Another File");
+            ui->pushButton->show();
+            //        QThread::sleep(2);
+            //        ui->currWord->hide();
+            //        QThread::sleep(2);
+            // ui->currWord->setText("End of file has been reached. Please select another file.");
+            //        ui->currWord->show();
+    }
 
-    QFile file(fileName);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QTextStream in(&file);
-    QString word = in.readAll();
-    QStringList fileWords = word.split(" ");
-//    ui->currWord->setText(fileWords[0]);
-//    QThread::sleep(7);
-//        ui->currWord->repaint();
-//    ui->currWord->setText(fileWords[1]);
-//    QThread::sleep(7);
-//        ui->currWord->repaint();
-//    ui->currWord->setText(fileWords[2]);
-//        ui->currWord->repaint();
-//        QThread::sleep(1);
-
-        for(int i = 0; i < fileWords.length(); i++)
-        {
-             qDebug() << fileWords[i];
-            ui->currWord->setText(fileWords[i]);
-            qApp->processEvents();
-            QThread::usleep(60000000/450); //second spent on each word
-        }
-//        QThread::sleep(2);
-//        ui->currWord->hide();
-//        QThread::sleep(2);
-//        ui->currWord->setText("End of file has been reached. Please select another file.");
-//        ui->currWord->show();
 }
 

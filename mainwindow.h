@@ -14,7 +14,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     QString fileName;
-//    ifstream file;
+    QString fileDir;
     ~MainWindow();
 
 private slots:

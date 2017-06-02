@@ -33,7 +33,7 @@
      <item>
       <widget class="QLabel" name="currWord">
        <property name="text">
-        <string>Select a File to Begin</string>
+        <string>Select a file to begin</string>
        </property>
        <property name="textFormat">
         <enum>Qt::AutoText</enum>
@@ -54,6 +54,9 @@
        <property name="text">
         <string>Select File</string>
        </property>
+       <property name="default">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
     </layout>
@@ -69,15 +72,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
