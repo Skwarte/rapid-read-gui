@@ -15,6 +15,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     QString fileName;
     QString fileDir;
+    int secondPerWord;
     ~MainWindow();
 
 private slots:
